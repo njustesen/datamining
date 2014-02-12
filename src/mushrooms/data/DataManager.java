@@ -1,30 +1,9 @@
-package mushrooms;
+package mushrooms.data;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import mushrooms.data.Bruises;
-import mushrooms.data.Cap_Color;
-import mushrooms.data.Cap_Shape;
-import mushrooms.data.Cap_Surface;
-import mushrooms.data.Gill_Size;
-import mushrooms.data.Gill_Attachment;
-import mushrooms.data.Gill_Color;
-import mushrooms.data.Gill_Spacing;
-import mushrooms.data.Habitat;
-import mushrooms.data.Class_Label;
-import mushrooms.data.Odor;
-import mushrooms.data.Population;
-import mushrooms.data.Ring_Number;
-import mushrooms.data.Ring_Type;
-import mushrooms.data.Spore_Print_Color;
-import mushrooms.data.Stalk_Color_Above_Ring;
-import mushrooms.data.Stalk_Color_Below_Ring;
-import mushrooms.data.Stalk_Root;
-import mushrooms.data.Stalk_Shape;
-import mushrooms.data.Stalk_Surface_Above_Ring;
-import mushrooms.data.Stalk_Surface_Below_Ring;
-import mushrooms.data.Veil_Color;
-import mushrooms.data.Veil_Type;
+import mushrooms.models.Mushroom;
+import mushrooms.readers.CSVFileReader;
 
 /**
  * The DataManager class is used to convert the string data loaded in from the text file

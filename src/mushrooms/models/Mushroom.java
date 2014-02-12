@@ -1,4 +1,4 @@
-package mushrooms;
+package mushrooms.models;
 
 import java.util.ArrayList;
 import java.util.List;
