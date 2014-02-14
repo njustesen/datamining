@@ -1,6 +1,6 @@
 package mushrooms.data;
 
-public enum Bruises {
+public enum Bruises implements Attribute {
 bruises,
 no_bruises,
 }

@@ -5,6 +5,7 @@ import java.util.EnumSet;
 import java.util.List;
 
 import mushrooms.classifiers.KNN;
+import mushrooms.classifiers.ID3.ID3;
 import mushrooms.data.Cap_Shape;
 import mushrooms.data.Class_Label;
 import mushrooms.data.DataManager;
@@ -22,6 +23,45 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		
+		//runKNN();
+		
+		runID3();
+		
+	}
+
+	private static void runID3() {
+		
+		List<Mushroom> mushrooms = DataManager.LoadData();
+		System.out.println("DataManager loaded "+mushrooms.size() + " mushrooms");
+		List<Mushroom> trainingSet = mushrooms.subList(0, mushrooms.size()/10*9);
+		List<Mushroom> testSet = mushrooms.subList(mushrooms.size()/10*9, mushrooms.size());
+		
+		ID3 id3 = new ID3();
+		id3.generateDecisionTree(trainingSet);
+		
+		id3.getTree().print();
+		
+		int correct = 0;
+		int incorrect = 0;
+		for(Mushroom mushroom : testSet){
+			if ((mushroom.m_Class == Class_Label.edible) == (id3.isEdible(mushroom))){
+				correct++;
+				//System.out.println("Correct!");
+			} else {
+				incorrect++;
+				//System.out.println("Incorrect!");
+			}
+		}
+		System.out.println("-------------");
+		System.out.println("Correct: " + correct);
+		System.out.println("Inorrect: " + incorrect);
+		System.out.println("Accuracy: " + (float)((float)correct / (float)testSet.size()) * 100);
+		
+		
+	}
+
+	private static void runKNN() {
 		// First step - Load data and convert to Mushroom objects.
 		List<Mushroom> mushrooms = DataManager.LoadData();
 		System.out.println("DataManager loaded "+mushrooms.size() + " mushrooms");
