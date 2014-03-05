@@ -75,9 +75,74 @@ public class ID3 {
 
 	private Object bestSplittingAttr(List<Mushroom> mushrooms, ArrayList<Object> attributes) {
 		
-		Object attr = attributes.get(0);
+		//Object attr = attributes.get(0);
 		
-		return attr;
+		float info = info(mushrooms);
+		
+		float bestInfo = 0;
+		Object bestAttr = null;
+		for(Object obj : attributes){
+			float infoAttr = info - infoAttr(obj, mushrooms);
+			if (infoAttr > bestInfo){
+				bestAttr = obj;
+				bestInfo = infoAttr;
+			}
+		}
+		
+		return bestAttr;
+	}
+
+	private float infoAttr(Object attr, List<Mushroom> mushrooms) {
+		
+		float info = 0;
+		for(Object label : ((Class)attr).getEnumConstants()){
+			
+			// Count prop
+			List<Mushroom> Dj = new ArrayList<Mushroom>();
+			for(Mushroom mushroom : mushrooms){
+				if(mushroom.getAttributeValue(attr).equals(label))
+					Dj.add(mushroom);
+			}
+			
+			// Calc info
+			float prop = (float)Dj.size() / (float)mushrooms.size();
+			float infoD = info(Dj);
+			float infoLabel = prop * infoD;
+			
+			info += infoLabel;
+			
+		}
+		
+		return info;
+	}
+
+	private float info(List<Mushroom> mushrooms) {
+		
+		if (mushrooms.isEmpty())
+			return 1;
+		
+		// Count prop
+		float edible = 0;
+		float nonEdible = 0;
+		for(Mushroom mushroom : mushrooms){
+			if (mushroom.m_Class == Class_Label.edible)
+				edible++;
+			else
+				nonEdible++;
+		}
+		
+		// Calc infomation gains
+		float infoEdible = (float) ((edible/mushrooms.size()) * Math.log(edible/mushrooms.size()));
+		float infoNonEdible = (float) ((nonEdible/mushrooms.size()) * Math.log(nonEdible/mushrooms.size()));
+		
+		if (edible == 0)
+			infoEdible = 0;
+		if (nonEdible == 0)
+			infoNonEdible = 0;
+		
+		float info = -infoEdible-infoNonEdible;
+		
+		return info;
 	}
 
 	private boolean isMajorityEdible(List<Mushroom> mushrooms) {
