@@ -10,48 +10,96 @@ import iris.kMean.KMeanCluster;
 
 public class KMedoid {
 
-	public static List<KMedoidCluster> KMedoidPartition(int k, List<Iris> data)
+	public static List<KMedoidCluster> KMedoidPartition(int k, int q, List<Iris> data)
 	{
 			
 		List<Iris> seeds = selectRandomIris(k, data);
 		
-		// Assign to clusters
-		Map<Iris, KMeanCluster> bestClusters = assignToClusters(k, seeds, data);
-		/*			
-		while(true){
+		List<KMedoidCluster> clusters = cluster(k, seeds, data);
+		
+		float utility = utility(clusters);
+		
+		int i = 0;
+		while(i < q){
 			
+			List<Iris> newSeeds = changeRandomSeed(seeds, data);
+			List<KMedoidCluster> newClusters = cluster(k, newSeeds, data);
+			float newUtility = utility(newClusters);
 			
-			
+			if (newUtility > utility){
+				utility = newUtility;
+				seeds = newSeeds;
+				clusters = newClusters;
+				i=0;
+			} else {
+				i++;
+			}
 		}
-		*/
-		return null;
+		
+		System.out.println("Utility: " + utility);
+		
+		return clusters;
 		
 	}
 	
-	private static Map<Iris, KMeanCluster> assignToClusters(int k, List<Iris> seeds, List<Iris> data) {
+	private static float utility(List<KMedoidCluster> clusters) {
 		
-		// Make cluster map
-		Map<Iris, KMeanCluster> clusters = new HashMap<>();
-		for(Iris seed : seeds){
-			clusters.put(seed, new KMeanCluster());
+		float distance = 0;
+		
+		for(KMedoidCluster cluster : clusters){
+			for (Iris iris : cluster.ClusterMembers){
+				distance += distance(cluster.Medoid, iris);
+			}
 		}
 		
-		// Add data to clusters
+		return -distance;
+	}
+
+	private static List<Iris> changeRandomSeed(List<Iris> seeds, List<Iris> data) {
+		
+		// Clone seeds
+		List<Iris> newSeeds = new ArrayList<Iris>();
+		newSeeds.addAll(seeds);
+		
+		// Remove random seed
+		int rs = (int) Math.floor(Math.random() * seeds.size());
+		Iris randomSeed = seeds.get(rs);
+		newSeeds.remove(randomSeed);
+		
+		// Add random non-seed
+		Iris randomIris = null;
+		while(true){
+			int ri = (int) Math.floor(Math.random() * data.size());
+			randomIris = data.get(ri);
+			if (!seeds.contains(randomIris))
+				break;
+		}
+		newSeeds.add(randomIris);
+		
+		return newSeeds;
+	}
+
+	private static List<KMedoidCluster> cluster(int k, List<Iris> seeds, List<Iris> data) {
+		
+		// Make cluster map
+		List<KMedoidCluster> clusters = new ArrayList<KMedoidCluster>();
+		
+		// Add seeds
+		for (Iris seed : seeds)
+			clusters.add(new KMedoidCluster(seed));
+		
+		// Add iris to clusters
 		for(Iris iris : data){
-			
-			Iris closestSeed = null;
-			float minDistance = Float.MAX_VALUE;
-			
-			for(Iris seed : seeds){
-				float distance = distance(iris, seed);
-				if (distance < minDistance){
-					minDistance = distance;
-					closestSeed = seed;
+			KMedoidCluster closestCluster = null;
+			float closestDistance = 1000000f;
+			for (KMedoidCluster cluster : clusters){
+				float distance = distance(iris, cluster.Medoid);
+				if (distance < closestDistance){
+					closestDistance = distance;
+					closestCluster = cluster;
 				}
 			}
-			
-			clusters.get(closestSeed).ClusterMembers.add(iris);
-			
+			closestCluster.ClusterMembers.add(iris);
 		}
 		
 		return clusters;

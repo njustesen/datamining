@@ -4,8 +4,8 @@ import iris.data.Iris;
 
 public class KMedoidCluster {
 
-public ArrayList<Iris> ClusterMembers;
-public Iris Medoid;
+	public ArrayList<Iris> ClusterMembers;
+	public Iris Medoid;
 	
 	public KMedoidCluster(Iris medoid)
 	{

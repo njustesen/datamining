@@ -42,7 +42,7 @@ public class Iris {
 	
 	@Override
 	public String toString() {
-		String result = "[|SL = "+this.Sepal_Length+"|SW = "+this.Sepal_Width+"|PL = "+this.Petal_Length + "|PW = "+this.Petal_Width + "|C = "+this.Class +"]";
+		String result = "["+this.Sepal_Length+","+this.Sepal_Width+","+this.Petal_Length + ","+this.Petal_Width + ","+this.Class +"]";
 		
 		return result;
 	}
