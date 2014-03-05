@@ -64,7 +64,7 @@ public class ItemSet {
 
 	@Override
 	public String toString() {
-		return "ItemSet [set=" + Arrays.toString(set) + "]";
+		return Arrays.toString(set);
 	}
     
     

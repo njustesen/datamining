@@ -6,6 +6,7 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Set;
 
+import shopping.models.AssRule;
 import shopping.models.ItemSet;
 
 
@@ -30,10 +31,23 @@ public class Apriori {
 
     public static void main( String[] args ) {
         // TODO: Select a reasonable support threshold via trial-and-error. Can either be percentage or absolute value.
-        final int supportThreshold = 30;
+        final int supportThreshold = 38;
         List<ItemSet> frequent = apriori( TRANSACTIONS, supportThreshold );
+        System.out.println("Frequent patterns:");
         for(ItemSet set : frequent)
         	System.out.println(set);
+        
+        System.out.println("");
+        
+        // Create association rules from the frequent itemsets
+        List<AssRule> assRules = generateAssRules(frequent, TRANSACTIONS, supportThreshold);
+        
+        System.out.println("Ass. rules: ");
+        for (AssRule rule : assRules){
+        	
+        	System.out.print(rule.getA() + " -> " + rule.getB() + "\n");
+        	
+        }
     }
 
     public static List<ItemSet> apriori( int[][] transactions, int supportThreshold ) {
@@ -47,15 +61,48 @@ public class Apriori {
             for(ItemSet set : frequentItemSets.keySet())
             	frequentSets.add(set);
             
-            System.out.println( " found " + frequentItemSets.size() );
+            System.out.println( " found " + frequentSets.size() );
         }
-        // TODO: create association rules from the frequent itemsets
-
+        
         // TODO: return something useful
         return frequentSets;
     }
 
-    private static Hashtable<ItemSet, Integer> generateFrequentItemSets( int supportThreshold, int[][] transactions,
+    private static List<AssRule> generateAssRules(List<ItemSet> frequentSets, int[][] transactions, int supportThreshold) {
+		
+    	List<AssRule> rules = new ArrayList<AssRule>();
+    	
+    	int[][] setArr = new int[frequentSets.size()][];
+    	for(int i = 0; i < frequentSets.size(); i++)
+    		setArr[i] = frequentSets.get(i).getSet();
+    	
+    	for(ItemSet set : frequentSets){
+    		List<ItemSet> subsets = subsets(set);
+    		for(ItemSet subset : subsets){
+    			
+    			float support = (float)countSupport(set.getSet(), setArr) / (float)countSupport(subset.getSet(), setArr);
+    			if (support * 100f >= supportThreshold){
+    				List<Integer> b = new ArrayList<Integer>();
+    				for(int i : set.getSet())
+    					b.add(i);
+    				
+    				for(int i : subset.getSet())
+    					b.remove(new Integer(i));
+    				
+    				int[] arr = new int[b.size()];
+    				for(int i = 0; i < b.size(); i++)
+    					arr[i] = b.get(i);
+    				
+    				ItemSet l = new ItemSet(arr);
+        			rules.add(new AssRule(subset, l));
+    			}
+    		}
+    	}
+    	
+		return rules;
+	}
+
+	private static Hashtable<ItemSet, Integer> generateFrequentItemSets( int supportThreshold, int[][] transactions,
                     Hashtable<ItemSet, Integer> lowerLevelItemSets ) {
         
     	Hashtable<ItemSet, Integer> itemSets = new Hashtable<ItemSet, Integer>();
