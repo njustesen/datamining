@@ -1,7 +1,10 @@
 package questionnaire;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import questionnaire.analyzers.DataAnalyzer;
@@ -11,11 +14,11 @@ import questionnaire.readers.Reader;
 
 public class Main {
 
-	public static void main(String args[]) {
+	public static void main(String args[]) throws ParseException {
 		try {
 			// Read
-			//String[][] data = new CSVFileReader().read("Data_Mining_Student_DataSet_Spring_2013.csv", false);
 			List<List<String>> data = new Reader().read("Data_Mining_Student_DataSet_Spring_2013.csv");
+			Date dateOfData = new SimpleDateFormat("yyyy-MM-dd").parse("2013-02-06");
 			
 			// Write
 			for (List<String> line : data)
@@ -23,7 +26,7 @@ public class Main {
 			
 			// Parse
 			int rows = new Reader().rowsInHeader("Data_Mining_Student_DataSet_Spring_2013.csv");
-			List<Answer> answers = new Cleaner().clean(data, rows);
+			List<Answer> answers = new Cleaner().clean(data, rows, dateOfData);
 			
 			// Analyze
 			new DataAnalyzer().analyse(answers);

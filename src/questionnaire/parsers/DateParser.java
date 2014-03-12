@@ -96,11 +96,6 @@ public class DateParser implements TypeParser<Date>{
 		if (date == null)
 			return false;
 		
-		/*
-		if (date.getTime() <= 0)
-			return false;
-		*/
-		
 		Calendar dateCal = Calendar.getInstance();
 		dateCal.setTime(date);
 		

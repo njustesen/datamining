@@ -10,6 +10,7 @@ public class Answer {
 	Integer yearsStudy;
 	String os;
 	List<String> programmingLanguage;
+	List<ProgrammingLanguage> proLanParsed;
 	Integer englishLevel;
 	Animal animal;
 	Boolean mountains;
@@ -29,42 +30,6 @@ public class Answer {
 	Integer planets;
 	Integer nextNumber;
 	String sequence;
-	
-	public Answer(Integer age, Date birthday, Integer skill,
-			Integer yearsStudy, String os, List<String> programmingLanguage,
-			Integer englishLevel, Animal animal, Boolean mountains,
-			Boolean winterTired, Float random1_10, Float randomReal0_1,
-			Float randomReal0_1Second, String canteen, String color,
-			Boolean nnAndSVM, Boolean sql, String sqlServer, Boolean priori,
-			Float sqrt, String homeTown, String therbForttGlag,
-			Integer planets, Integer nextNumber, String sequence) {
-		super();
-		this.age = age;
-		this.birthday = birthday;
-		this.skill = skill;
-		this.yearsStudy = yearsStudy;
-		this.os = os;
-		this.programmingLanguage = programmingLanguage;
-		this.englishLevel = englishLevel;
-		this.animal = animal;
-		this.mountains = mountains;
-		this.winterTired = winterTired;
-		this.random1_10 = random1_10;
-		this.randomReal0_1 = randomReal0_1;
-		this.randomReal0_1Second = randomReal0_1Second;
-		this.canteen = canteen;
-		this.color = color;
-		this.nnAndSVM = nnAndSVM;
-		this.sql = sql;
-		this.sqlServer = sqlServer;
-		this.priori = priori;
-		this.sqrt = sqrt;
-		this.homeTown = homeTown;
-		this.therbForttGlag = therbForttGlag;
-		this.planets = planets;
-		this.nextNumber = nextNumber;
-		this.sequence = sequence;
-	}
 
 	public Answer() {
 		
@@ -116,6 +81,14 @@ public class Answer {
 
 	public void setProgrammingLanguage(List<String> programmingLanguage) {
 		this.programmingLanguage = programmingLanguage;
+	}
+	
+	public List<ProgrammingLanguage> getProLanParsed() {
+		return proLanParsed;
+	}
+
+	public void setProLanParsed(List<ProgrammingLanguage> proLanParsed) {
+		this.proLanParsed = proLanParsed;
 	}
 
 	public Integer getEnglishLevel() {

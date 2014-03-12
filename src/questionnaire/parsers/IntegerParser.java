@@ -31,14 +31,14 @@ public class IntegerParser implements TypeParser<Integer>{
 			// Ignore
 		}
 		
-		// if range, pick lowest
+		// if a range, pick lowest
 		if (string.split("-").length > 1){
 			Integer i = parse(string.split("-")[0]);
 			if (i != null && i >= min && i <= max)
 				return i;
 		}
 		
-		// wierd stuff
+		// weird stuff
 		if (string.split(" ").length > 1){
 			Integer i = parse(string.split(" ")[0]);
 			if (i != null && i >= min && i <= max)

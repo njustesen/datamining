@@ -1,6 +1,7 @@
 package questionnaire.cleaners;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import questionnaire.models.Answer;
@@ -10,13 +11,14 @@ import questionnaire.parsers.DateParser;
 import questionnaire.parsers.FloatParser;
 import questionnaire.parsers.IntegerParser;
 import questionnaire.parsers.ListParser;
+import questionnaire.parsers.ProLangParser;
 import questionnaire.parsers.StringParser;
 
 
 
 public class Cleaner {
 
-	public List<Answer> clean(List<List<String>> data, int rows) {
+	public List<Answer> clean(List<List<String>> data, int rows, Date dateOfDate) {
 		
 		List<Answer> answers = new ArrayList<Answer>();
 		
@@ -34,6 +36,7 @@ public class Cleaner {
 			answer.setYearsStudy(new IntegerParser(0,30).parse(row.get(3)));
 			answer.setOs(new StringParser().parse(row.get(4)));
 			answer.setProgrammingLanguage(new ListParser().parse(row.get(5)));
+			answer.setProLanParsed(new ProLangParser().parse(answer.getProgrammingLanguage()));
 			answer.setEnglishLevel(new IntegerParser(45,69).parse(row.get(6)));
 			answer.setAnimal(new AnimalParser().parse(row.get(7)));
 			answer.setMountains(new BooleanParser().parse(row.get(8)));
@@ -54,6 +57,14 @@ public class Cleaner {
 			answer.setNextNumber(new IntegerParser(45,69).parse(row.get(23)));
 			answer.setSequence(new StringParser().parse(row.get(24)));
 			
+			if (answer.getAge()==null || answer.getAge() == 0)
+				answer.setAge(new AgeFixer(18,80).getAge(dateOfDate, answer.getBirthday()));
+			
+			if (answer.getBirthday()==null){
+				Date birthday = new BirthDateFixer().getBirthDate(answer.getAge(), row.get(1), dateOfDate);
+				answer.setBirthday(birthday);
+			}
+				
 			answers.add(answer);
 			System.out.println("---");
 			System.out.println(Arrays.toString(row.toArray()));
