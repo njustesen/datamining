@@ -17,7 +17,10 @@ import questionnaire.readers.Reader;
 
 public class Apriori {
 
-    public static void main( String[] args ) throws IOException, ParseException {
+    private static final int confidenceThreshold = 60;
+    private static final int supportThreshold = 10;
+
+	public static void main( String[] args ) throws IOException, ParseException {
     	
     	// Read
 		List<List<String>> data = new Reader().read("Data_Mining_Student_DataSet_Spring_2013.csv");
@@ -30,7 +33,6 @@ public class Apriori {
 		// Extract to item sets
 		List<ItemSet> itemSets = extractItemSets(answers);
 		
-        final int supportThreshold = 20;
         List<ItemSet> frequent = apriori( itemSets, supportThreshold );
         System.out.println("Frequent patterns:");
         for(ItemSet set : frequent)
@@ -57,13 +59,29 @@ public class Apriori {
     		
     		List<String> set = new ArrayList<String>();
     		
-    		if (answer.getAnimal() != null){
+    		if (answer.getAnimal() != null)
     			set.add(answer.getAnimal().name);
-
-    			for(ProgrammingLanguage lang : answer.getProLanParsed())
-    				set.add(lang.getName());
-    			
-    		}
+//    		
+    		if (answer.getAge() != null)
+    			set.add(""+answer.getAge()/10);
+//    		
+//    		if (answer.getColor() != null)
+//    			set.add(""+answer.getColor());
+//    		
+//    		if (answer.getEnglishLevel() != null)
+//    			set.add(""+answer.getEnglishLevel());
+//    			
+//    		if (answer.getHomeTown() != null)
+//    			set.add(""+answer.getHomeTown());
+//    		
+//    		if (answer.getNextNumber() != null)
+//    			set.add(""+answer.getNextNumber());
+//    		
+//    		if (answer.getSkill() != null)
+//    			set.add(""+answer.getSkill());
+//    		
+//    		for(ProgrammingLanguage lang : answer.getProLanParsed())
+//				set.add(lang.getName());
     		
     		sets.add(new ItemSet(set));
     		
@@ -94,26 +112,34 @@ public class Apriori {
 		
     	List<AssRule> rules = new ArrayList<AssRule>();
     	
-    	for(ItemSet set : frequentSets){
-    		List<ItemSet> subsets = subsets(set);
-    		for(ItemSet subset : subsets){
+    	for(ItemSet l : frequentSets){
+    		List<ItemSet> subsets = subsets(l);
+    		for(ItemSet s : subsets){
     			
-    			float support = (float)countSupport(set, frequentSets) / (float)countSupport(subset, frequentSets);
-    			if (support * 100f >= supportThreshold){
-    				List<String> b = new ArrayList<String>();
-    				for(String str : set.getSet())
-    					b.add(str);
-    				
-    				for(String str : subset.getSet())
-    					b.remove(str);
-    				
-    				ItemSet l = new ItemSet(b);
-        			rules.add(new AssRule(subset, l));
-    			}
+				List<String> b = new ArrayList<String>();
+				for(String str : l.getSet())
+					b.add(str);
+				
+				for(String str : s.getSet())
+					b.remove(str);
+				
+				ItemSet lms = new ItemSet(b);
+				
+				float confidence = confidence(s, l, dataSets);
+				
+				if (confidence > confidenceThreshold)
+					rules.add(new AssRule(s, lms, confidence));
+    			
     		}
     	}
     	
 		return rules;
+	}
+
+	private static float confidence(ItemSet s, ItemSet l, List<ItemSet> data) {
+		
+		return ( (float)countSupport(l, data) / (float)countSupport(s, data) ) * 100;
+		
 	}
 
 	private static Hashtable<ItemSet, Integer> generateFrequentItemSets( int supportThreshold, List<ItemSet> data,
@@ -244,28 +270,34 @@ public class Apriori {
         return new ItemSet(join);
     }
 
-    private static int countSupport( ItemSet itemSset, List<ItemSet> data ) {
-      
-    	int count = 0;
-    	for(ItemSet dataSet : data){
-    		boolean itemsInData = true;
-    		for(String setStr : itemSset.getSet()){
-    			boolean inT = false;
-    			for(String dataStr : dataSet.getSet()){
-        			if (dataStr.equals(setStr)){
-        				inT = true;
-        				break;
-        			}
-        		}
-    			if (!inT){
-    				itemsInData = false;
-    				break;
-    			}
-    		}
-    		if (itemsInData)
-    			count++;
-    	}
+    private static int countSupport( ItemSet itemSet, List<ItemSet> data ) {
     	
+    	int count = 0;
+    	
+		for (ItemSet dataSet : data){
+			
+			int itemCount = 0;
+			
+			for(String item : itemSet.getSet()){
+			
+				for (String dataItem : dataSet.getSet()){
+					
+					if (item.equals(dataItem)){
+						
+						itemCount++;
+						break;
+						
+					}
+					
+				}
+				
+			}
+			
+			if (itemCount==itemSet.getSet().size())
+				count++;
+    		
+    	}
+    
         return (int) (((float)count / (float)data.size()) * 100);
     }
 

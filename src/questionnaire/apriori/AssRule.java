@@ -4,11 +4,21 @@ public class AssRule {
 	
 	ItemSet a;
 	ItemSet b;
+	float confidence;
 	
-	public AssRule(ItemSet a, ItemSet b) {
+	public AssRule(ItemSet a, ItemSet b, float confidence) {
 		super();
 		this.a = a;
 		this.b = b;
+		this.confidence = confidence;
+	}
+	
+	public float getConfidence() {
+		return confidence;
+	}
+
+	public void setConfidence(float confidence) {
+		this.confidence = confidence;
 	}
 
 	public ItemSet getA() {

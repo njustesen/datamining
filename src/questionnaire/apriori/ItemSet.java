@@ -15,6 +15,19 @@ public class ItemSet {
 	}
 
 	@Override
+	public String toString() {
+		String str = "[";
+		int count = 0;
+		for(String item : set){
+			str += item;
+			count++;
+			if (count < set.size())
+				str += ";";
+		}
+		return str + "]";
+	}
+
+	@Override
 	public int hashCode() {
 		return toString().hashCode();
 	}
