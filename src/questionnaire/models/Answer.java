@@ -259,5 +259,10 @@ public class Answer {
 				+ therbForttGlag + ", planets=" + planets + ", nextNumber="
 				+ nextNumber + ", sequence=" + sequence + "]";
 	}
+
+	public Object getAttributeValue(Object attr) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }
