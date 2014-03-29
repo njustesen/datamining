@@ -14,8 +14,11 @@ import questionnaire.parsers.ListParser;
 import questionnaire.parsers.ProLangParser;
 import questionnaire.parsers.StringParser;
 
-
-
+/**
+ * Parses and cleans data.
+ * @author Niels
+ *
+ */
 public class Cleaner {
 
 	public List<Answer> clean(List<List<String>> data, int rows, Date dateOfDate) {

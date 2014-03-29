@@ -1,0 +1,74 @@
+<node value='null' split='questionnaire.id3.attributes.ENGLISH_LEVEL' mushrooms='29'>
+	<node value='between_50_and_60' split='questionnaire.id3.attributes.AGE' mushrooms='12'>
+		<node value='older_than_30' animal='ELEPHANT'>
+		</node>
+		<node value='between_20_and_30' split='questionnaire.id3.attributes.CPLUSPLUS' mushrooms='8'>
+			<node value='no' split='questionnaire.id3.attributes.JAVA' mushrooms='5'>
+				<node value='no' split='questionnaire.id3.attributes.YEARS_OF_STUDY' mushrooms='4'>
+					<node value='ten_or_more' split='questionnaire.id3.attributes.PYTHON' mushrooms='3'>
+						<node value='yes' animal='ZEBRA'>
+						</node>
+						<node value='no' split='questionnaire.id3.attributes.CSHARP' mushrooms='2'>
+							<node value='yes' animal='ZEBRA'>
+							</node>
+							<node value='no' animal='ELEPHANT'>
+							</node>
+						</node>
+					</node>
+					<node value='below_five' animal='ZEBRA'>
+					</node>
+				</node>
+				<node value='yes' animal='ELEPHANT'>
+				</node>
+			</node>
+			<node value='yes' animal='ZEBRA'>
+			</node>
+		</node>
+	</node>
+	<node value='none' animal='ZEBRA'>
+	</node>
+	<node value='between_60_and_70' split='questionnaire.id3.attributes.YEARS_OF_STUDY' mushrooms='15'>
+		<node value='ten_or_more' split='questionnaire.id3.attributes.PYTHON' mushrooms='4'>
+			<node value='yes' animal='ELEPHANT'>
+			</node>
+			<node value='no' split='questionnaire.id3.attributes.AGE' mushrooms='3'>
+				<node value='older_than_30' animal='ELEPHANT'>
+				</node>
+				<node value='between_20_and_30' animal='ASPARAGUS'>
+				</node>
+			</node>
+		</node>
+		<node value='five_to_nine' animal='ZEBRA'>
+		</node>
+		<node value='below_five' split='questionnaire.id3.attributes.CSHARP' mushrooms='10'>
+			<node value='yes' split='questionnaire.id3.attributes.PYTHON' mushrooms='6'>
+				<node value='yes' animal='ZEBRA'>
+				</node>
+				<node value='no' split='questionnaire.id3.attributes.JAVA' mushrooms='5'>
+					<node value='no' animal='ELEPHANT'>
+					</node>
+					<node value='yes' split='questionnaire.id3.attributes.CPLUSPLUS' mushrooms='4'>
+						<node value='no' split='questionnaire.id3.attributes.AGE' mushrooms='4'>
+							<node value='between_20_and_30' animal='ELEPHANT'>
+							</node>
+						</node>
+					</node>
+				</node>
+			</node>
+			<node value='no' split='questionnaire.id3.attributes.PYTHON' mushrooms='4'>
+				<node value='yes' animal='ELEPHANT'>
+				</node>
+				<node value='no' split='questionnaire.id3.attributes.JAVA' mushrooms='3'>
+					<node value='no' split='questionnaire.id3.attributes.CPLUSPLUS' mushrooms='2'>
+						<node value='no' split='questionnaire.id3.attributes.AGE' mushrooms='2'>
+							<node value='between_20_and_30' split='null' mushrooms='2'>
+							</node>
+						</node>
+					</node>
+					<node value='yes' animal='ZEBRA'>
+					</node>
+				</node>
+			</node>
+		</node>
+	</node>
+</node>

@@ -2,6 +2,22 @@ package questionnaire.models;
 import java.util.Date;
 import java.util.List;
 
+import questionnaire.id3.attributes.AGE;
+import questionnaire.id3.attributes.CPLUSPLUS;
+import questionnaire.id3.attributes.CSHARP;
+import questionnaire.id3.attributes.ENGLISH_LEVEL;
+import questionnaire.id3.attributes.JAVA;
+import questionnaire.id3.attributes.PYTHON;
+import questionnaire.id3.attributes.YEARS_OF_STUDY;
+
+import mushrooms.data.Class_Label;
+
+/**
+ * The representation of a student answer.
+ * 
+ * @author Niels
+ *
+ */
 public class Answer {
 
 	Integer age;
@@ -261,7 +277,63 @@ public class Answer {
 	}
 
 	public Object getAttributeValue(Object attr) {
-		// TODO Auto-generated method stub
+		if(attr.equals(AGE.class)){
+			if (age == null)
+				return AGE.none;
+			if (age < 20)
+				return AGE.younger_than_20;
+			else if (age > 30)
+				return AGE.older_than_30;
+			else
+				return AGE.between_20_and_30;
+		}
+		
+		if(attr.equals(ENGLISH_LEVEL.class)){
+			if (englishLevel == null)
+				return ENGLISH_LEVEL.none;
+			if (englishLevel < 50)
+				return ENGLISH_LEVEL.below_50;
+			else if (englishLevel > 70)
+				return ENGLISH_LEVEL.higher_than_70;
+			else if (englishLevel > 60)
+				return ENGLISH_LEVEL.between_60_and_70;
+			return ENGLISH_LEVEL.between_50_and_60;
+		}
+		
+		if(attr.equals(YEARS_OF_STUDY.class)){
+			if (yearsStudy == null)
+				return YEARS_OF_STUDY.none;
+			if (yearsStudy < 5)
+				return YEARS_OF_STUDY.below_five;
+			else if (yearsStudy > 10)
+				return YEARS_OF_STUDY.five_to_nine;
+			return YEARS_OF_STUDY.ten_or_more;
+		}
+		
+		if(attr.equals(CPLUSPLUS.class)){
+			if (proLanParsed.contains(ProgrammingLanguage.CPLUSPLUS))
+				return CPLUSPLUS.yes;
+			return CPLUSPLUS.no;
+		}
+		
+		if(attr.equals(JAVA.class)){
+			if (proLanParsed.contains(ProgrammingLanguage.JAVA))
+				return JAVA.yes;
+			return JAVA.no;
+		}
+		
+		if(attr.equals(CSHARP.class)){
+			if (proLanParsed.contains(ProgrammingLanguage.CSHARP))
+				return CSHARP.yes;
+			return CSHARP.no;
+		}
+		
+		if(attr.equals(PYTHON.class)){
+			if (proLanParsed.contains(ProgrammingLanguage.PYTHON))
+				return PYTHON.yes;
+			return PYTHON.no;
+		}
+		
 		return null;
 	}
 	

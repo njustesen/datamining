@@ -3,6 +3,11 @@ package questionnaire.cleaners;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * Fixes the age day attribute based on birthday.
+ * @author Niels
+ *
+ */
 public class AgeFixer {
 	
 	int min;

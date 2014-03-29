@@ -5,8 +5,11 @@ import java.util.List;
 
 import questionnaire.models.Answer;
 
-
-
+/**
+ * This data analyzer prints statistics on age.
+ * @author Niels
+ *
+ */
 public class DataAnalyzer implements Analyzer {
 
 	@Override

@@ -1,12 +1,67 @@
 package questionnaire.kmedoid;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
+import questionnaire.cleaners.Cleaner;
 import questionnaire.models.Answer;
-import questionnaire.models.ProgrammingLanguage;
+import questionnaire.readers.Reader;
 
+/**
+ * An implementation of KMedoid for student answers.
+ * @author Niels
+ *
+ */
 public class KMedoid {
+	
+	/**
+	 * Run this to test KMedoid.
+	 * @param args
+	 * @throws ParseException
+	 */
+	public static void main(String args[]) throws ParseException {
+		try {
+			// Read
+			List<List<String>> data = new Reader().read("Data_Mining_Student_DataSet_Spring_2013.csv");
+			Date dateOfData = new SimpleDateFormat("yyyy-MM-dd").parse("2013-02-06");
+			
+			// Write
+			for (List<String> line : data)
+				System.out.println(Arrays.toString(line.toArray()));
+			
+			// Parse
+			int rows = new Reader().rowsInHeader("Data_Mining_Student_DataSet_Spring_2013.csv");
+			List<Answer> answers = new Cleaner().clean(data, rows, dateOfData);
+		
+			//Third step --> do the clustering using k-medoids!
+			List<KMedoidCluster> FoundClusters_KMedoids = KMedoid.KMedoidPartition(4, 10000, answers);
+			
+			for(KMedoidCluster cluster : FoundClusters_KMedoids){
+				System.out.println(cluster);
+				for(Answer answer : cluster.ClusterMembers){
+					if (answer.getSkill() != null && answer.getEnglishLevel() != null && answer.getYearsStudy() != null){
+						System.out.println(answer.getSkill() + "\t" + answer.getEnglishLevel() + "\t" + answer.getYearsStudy());
+//					if (answer.getSkill() != null && answer.getEnglishLevel() != null){
+//						System.out.println(answer.getSkill() + ";" + answer.getEnglishLevel());
+						
+						/*
+						System.out.print("Age: " + answer.getAge() + ", skill: " + answer.getSkill() + ", english: " + answer.getEnglishLevel());
+						if (!answer.getProLanParsed().isEmpty())
+							System.out.print(", programming: " + answer.getProLanParsed().get(0));
+							*/
+					}
+					//System.out.print("\n");
+				}
+			}
+		} catch (Exception e){
+			System.out.println(e);
+		}
+		
+	}
 
 	public static List<KMedoidCluster> KMedoidPartition(int k, int q, List<Answer> data)
 	{
@@ -104,17 +159,7 @@ public class KMedoid {
 	}
 	
 	private static float distance(Answer a, Answer b) {
-		/*
-		float plDis = a.Petal_Length 	- 	b.Petal_Length;
-		float pwDis = a.Petal_Width		-	b.Petal_Width;
-		float slDis = a.Sepal_Length	-	b.Sepal_Length;
-		float swDis = a.Sepal_Width		-	b.Sepal_Width;
-		*/
-		/*
-		float ageDis = a.getAge() 		- 	b.getAge();
-		
-		float distance = (float) Math.sqrt(ageDis*ageDis + skillDis*skillDis*3);
-		*/
+
 		float skillDis 		= 	10f;
 		if(a.getSkill() != null && b.getSkill() != null)
 			skillDis = a.getSkill() - b.getSkill();
@@ -128,6 +173,7 @@ public class KMedoid {
 			yearsStudy = (a.getYearsStudy() - b.getYearsStudy());
 		
 		/*
+		 * Uncomment for 3D clustering
 		float proDis = 0f;
 		for (ProgrammingLanguage lang : a.getProLanParsed()){
 			if (!b.getProLanParsed().contains(lang))
@@ -139,7 +185,7 @@ public class KMedoid {
 		}
 		*/
 		float distance = (float) Math.sqrt(skillDis*skillDis + englishDis*englishDis + yearsStudy*yearsStudy);
-//		float distance = (float) Math.sqrt(skillDis*skillDis + englishDis*englishDis);
+//		float distance = (float) Math.sqrt(skillDis*skillDis + englishDis*englishDis); // Uncomment for 3D clustering
 		return distance;
 	}
 

@@ -1,5 +1,6 @@
 package questionnaire.id3;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -22,7 +23,7 @@ public class ID3Node {
 	public ID3Node(Class attribute, List<Mushroom> mushrooms) {
 		super();
 		this.attribute = attribute;
-		this.answers = answers;
+		this.answers = new ArrayList<Answer>();
 		this.animal = null;
 	}
 
@@ -67,7 +68,7 @@ public class ID3Node {
 		String m = String.valueOf((answers == null ? "null" : answers.size()));
 		String v = value == null ? "null" : ((Enum)value).name();
 		if (animal == null){
-			str += "<node value='" + v + "' split='" + attr + "' mushrooms='" + m + "'>";
+			str += "<node value='" + v + "' split='" + attr + "' answers='" + m + "'>";
 		}else {
 			str += "<node value='" + v + "' animal='" + animal.name() + "'>";
 		}
@@ -94,6 +95,9 @@ public class ID3Node {
 		if (animal!=null)
 			return animal;
 		
+		if (children==null)
+			return null;
+		
 		for(Object obj : children.keySet()){
 			
 			if (answer.getAttributeValue(attribute) == obj)
@@ -101,8 +105,18 @@ public class ID3Node {
 			
 		}
 		
-		throw new IllegalStateException();
+		return null;
 		
+	}
+
+	public int count() {
+		int c = 1;
+		if (children == null)
+			return c;
+		for(ID3Node child : children.values()){
+			c += child.count();
+		}
+		return c;
 	}
 	
 }

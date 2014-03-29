@@ -20,6 +20,12 @@ public class Apriori {
     private static final int confidenceThreshold = 60;
     private static final int supportThreshold = 10;
 
+    /**
+     * Run this to test Apriori.
+     * @param args
+     * @throws IOException
+     * @throws ParseException
+     */
 	public static void main( String[] args ) throws IOException, ParseException {
     	
     	// Read
@@ -51,6 +57,11 @@ public class Apriori {
         }
     }
 
+	/**
+	 * Add and remove attributes in this method.
+	 * @param answers
+	 * @return
+	 */
     private static List<ItemSet> extractItemSets(List<Answer> answers) {
 		
     	List<ItemSet> sets = new ArrayList<ItemSet>();
@@ -273,29 +284,18 @@ public class Apriori {
     private static int countSupport( ItemSet itemSet, List<ItemSet> data ) {
     	
     	int count = 0;
-    	
 		for (ItemSet dataSet : data){
-			
 			int itemCount = 0;
-			
 			for(String item : itemSet.getSet()){
-			
 				for (String dataItem : dataSet.getSet()){
-					
 					if (item.equals(dataItem)){
-						
 						itemCount++;
 						break;
-						
 					}
-					
 				}
-				
 			}
-			
 			if (itemCount==itemSet.getSet().size())
 				count++;
-    		
     	}
     
         return (int) (((float)count / (float)data.size()) * 100);

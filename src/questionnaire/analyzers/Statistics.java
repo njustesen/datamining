@@ -5,6 +5,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * This class has a number of statistical methods.
+ * @author Niels
+ *
+ */
 public class Statistics {
 
 	public static Float mean(List<Float> floats) {

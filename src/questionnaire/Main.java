@@ -14,7 +14,13 @@ import questionnaire.readers.Reader;
 
 public class Main {
 
-	public static void main(String args[]) throws ParseException {
+	public static void main(String args[]) {
+		
+		analyse();
+		
+	}
+
+	private static void analyse() {
 		try {
 			// Read
 			List<List<String>> data = new Reader().read("Data_Mining_Student_DataSet_Spring_2013.csv");
@@ -31,9 +37,11 @@ public class Main {
 			// Analyze
 			new DataAnalyzer().analyse(answers);
 			
-		} catch (IOException e) {
+		} catch (IOException | ParseException e) {
 			System.err.println(e.getLocalizedMessage());
 		}
 	}
+	
+	
 
 }

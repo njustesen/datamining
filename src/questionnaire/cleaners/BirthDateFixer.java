@@ -7,6 +7,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Fixes the birthday attribute based on age and birthday.
+ * @author Niels
+ *
+ */
 public class BirthDateFixer {
 	
 	private List<String> patterns;

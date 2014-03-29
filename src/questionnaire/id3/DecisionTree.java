@@ -23,4 +23,8 @@ public class DecisionTree {
 		root.print(0, null);
 	}
 
+	public int count() {
+		return root.count();
+	}
+
 }
